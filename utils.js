@@ -4,6 +4,12 @@ function getZipFromPath(path) {
 	return +pathArr[2];
 }
 
+function isValidZip(zipcode) {
+	const regex = /\b[0-9]{5}\b/;
+	const stringZip = zipcode.toString();
+	return !!stringZip.match(regex);
+}
+
 function consolidateZips(arrOfZips) {
 	let start = 0;
 	let end = 0;
@@ -27,4 +33,4 @@ function consolidateZips(arrOfZips) {
 	return strOfZips;
 }
 
-module.exports = { getZipFromPath, consolidateZips };
+module.exports = { getZipFromPath, consolidateZips, isValidZip };

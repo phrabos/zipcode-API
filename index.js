@@ -6,7 +6,7 @@ const {
 	deleteZipFromDatabase,
 	isZipInDatabase,
 } = require('./firebase');
-const { getZipFromPath, consolidateZips } = require('./utils');
+const { getZipFromPath, consolidateZips, isValidZip } = require('./utils');
 
 const app = express();
 
@@ -18,7 +18,9 @@ app.get('/insert/:zipcode', async (req, res) => {
 	const doesZipExist = await isZipInDatabase(zipcode);
 
 	try {
-		if (doesZipExist) {
+		if (!isValidZip(zipcode)) {
+			res.send(`Zip code must be a five digit number.`);
+		} else if (doesZipExist) {
 			res.send(`Zip code ${zipcode} is already in the database`);
 		} else {
 			addZipToDatabase(zipcode.toString());

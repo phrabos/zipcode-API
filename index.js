@@ -53,9 +53,14 @@ app.get('/has/:zipcode', async (req, res) => {
 app.get('/display', async (req, res) => {
 	const allZipsArray = await getAllZips();
 
-	const consolidatedZipsString = consolidateZips(allZipsArray);
-
-	res.send(consolidatedZipsString);
+	if (!allZipsArray.length)
+		res.send(
+			'no zip codes in database, to add a zip code use /insert/<zip code>'
+		);
+	else {
+		const consolidatedZipsString = consolidateZips(allZipsArray);
+		res.send(consolidatedZipsString);
+	}
 });
 
 app.listen(process.env.PORT || PORT, () =>
